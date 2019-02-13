@@ -39,3 +39,10 @@ monolog:
 
 #swiftmailer:
 #    delivery_addresses: ['me@example.com']
+sensio_framework_extra:
+    view: { annotations: false }
+    request: { converters: true }
+
+fos_rest:
+    body_converter:
+        enabled: true

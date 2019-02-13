@@ -1,0 +1,10 @@
+{
+   "firstname": "nicolas",
+   "lastname": "gbenou",
+   "adress": "rue barreyre",
+   "adress2": "bat d",
+   "city": "bordeaux",
+   "postalCode": "33000",
+   "sport": "2",
+   "qty": "3"
+}

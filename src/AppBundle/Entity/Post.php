@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -9,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
  * WpPosts
  *
  * @ORM\Table(name="wp_posts", indexes={@ORM\Index(name="type_status_date", columns={"post_type", "post_status", "post_date", "ID"}), @ORM\Index(name="post_parent", columns={"post_parent"}), @ORM\Index(name="post_author", columns={"post_author"}), @ORM\Index(name="post_name", columns={"post_name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  *
  */
 class Post
@@ -184,7 +185,16 @@ class Post
      */
     private $commentCount = '0';
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PostMeta", mappedBy="postId")
+     * @ORM\JoinColumn(name="ID", referencedColumnName="post_id")
+     */
+    private $postMetas;
 
+    public function _construct()
+    {
+      $this->postMetas = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -536,6 +546,11 @@ class Post
     public function setCommentCount($commentCount)
     {
         $this->commentCount = $commentCount;
+    }
+
+    public function getPostMetas()
+    {
+        return $this->postMetas;
     }
 
 

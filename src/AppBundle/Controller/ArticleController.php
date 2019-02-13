@@ -16,10 +16,12 @@ class ArticleController extends Controller
      */
     public function showAction(Post $post)
     {
+
         $data = $this->get('jms_serializer')->serialize($post, 'json', SerializationContext::create()->setGroups(array('detail')));
 
         $response = new Response($data);
         $response->headers->set('Content-type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
 
         return $response;
     }
@@ -29,18 +31,39 @@ class ArticleController extends Controller
      */
     public function listArticleAction()
     {
-        $articles = $this->getDoctrine()->getRepository('AppBundle:Post')->findBy(
-            array('postStatus' => 'publish', 'postType' => 'post'),
-            array('postDate' => 'desc'),
-            12,
-            0
-        );
+        $articles = $this
+            ->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->postList2();
+
 
         $data = $this->get('jms_serializer')->serialize($articles, 'json', SerializationContext::create()->setGroups(array('list')));
 
         $response = new Response($data);
         $response->headers->set('Content-type', 'application:json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
 
         return $response;
     }
+
+    /**
+     * @Route("/articles/{id}", name="category")
+     */
+    public function categoryAction()
+    {
+        $articles = $this
+            ->getDoctrine()
+            ->getRepository('AppBundle:Post')
+            ->postList2();
+
+
+        $data = $this->get('jms_serializer')->serialize($articles, 'json', SerializationContext::create()->setGroups(array('list')));
+
+        $response = new Response($data);
+        $response->headers->set('Content-type', 'application:json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
+    }
+
 }
